@@ -109,13 +109,19 @@ node * removeNode (node * head, int position)
 
 /* ===================================================================*/
 
-/* used to detect the presence of a loop in a linked list */
+/* used to detect the presence of a loop in a linked list using the runner technique
+ * (fast and slow pointers) */
+/* I will need to:
+ * 1 - detect the existence of a loop: when the fast and slow pointers meet
+ * 2 - return the node that caused the loop:
+ */
 node * loopDetection (node * head)
 {
 	node * slowPtr = head;
 	node * fastPtr = head;
 	bool firstTime = true;
 
+	/* break when detecting a loop, otherwise the fast pointer will reach NULL */
 	while(fastPtr != NULL && fastPtr->nextNode != NULL)
 	{
 		if(fastPtr == slowPtr && firstTime == false)
@@ -125,6 +131,11 @@ node * loopDetection (node * head)
 		firstTime = false;
 	}
 
+	/* the fast pointer now has the value of the meeting point.
+	 * We will need to set the slow pointer as the head and loop until both pointers
+	 * are equal (which is the point of intersection)
+	 * If no loop available, the function will return NULL. */
+	if(fastPtr == NULL) return NULL;
 	slowPtr = head;
 	while(fastPtr != slowPtr)
 	{
@@ -134,6 +145,12 @@ node * loopDetection (node * head)
 
 	return slowPtr;
 }
+
+/* ========================================================================*/
+
+/* used to find the intersection of two linked lists */
+/* this algorithm uses a map to store the pointer of each node and to count each pointer
+ * if a counter is greater than 1, then it is a point of intersection */
 
 node * findIntersection(node * head1, node * head2)
 {
@@ -156,6 +173,10 @@ node * findIntersection(node * head1, node * head2)
 
 	return NULL;
 }
+
+/*=====================================================================*/
+/* this algorithm is used to find the middle node of a linked list.
+ * It uses the runner technique */
 
 node * findLLMiddle(node * head)
 {
